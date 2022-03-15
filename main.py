@@ -20,7 +20,7 @@ from timm.loss import LabelSmoothingCrossEntropy, SoftTargetCrossEntropy
 from timm.utils import accuracy, AverageMeter
 
 from config import get_config
-from models import build_model
+from models import build_model, build_vit_model
 from data import build_loader
 from lr_scheduler import build_scheduler
 from optimizer import build_optimizer
@@ -36,7 +36,7 @@ except ImportError:
 
 def parse_option():
     parser = argparse.ArgumentParser('Swin Transformer training and evaluation script', add_help=False)
-    parser.add_argument('--cfg', type=str, required=True, metavar="FILE", help='path to config file', )
+    parser.add_argument('--cfg', type=str, default="./configs/swin_tiny_patch4_window7_224.yaml", required=False, metavar="FILE", help='path to config file', )
     parser.add_argument(
         "--opts",
         help="Modify config options by adding 'KEY VALUE' pairs. ",
@@ -47,6 +47,7 @@ def parse_option():
     # easy config modification
     parser.add_argument('--batch-size', type=int, help="batch size for single GPU")
     parser.add_argument('--data-path', type=str, help='path to dataset')
+    parser.add_argument('--model', type=str, help="vit model for training")
     parser.add_argument('--zip', action='store_true', help='use zipped dataset instead of folder dataset')
     parser.add_argument('--cache-mode', type=str, default='part', choices=['no', 'full', 'part'],
                         help='no: no cache, '
@@ -76,11 +77,12 @@ def parse_option():
     return args, config
 
 
-def main(config):
+def main(config, args):
     dataset_train, dataset_val, data_loader_train, data_loader_val, mixup_fn = build_loader(config)
 
     logger.info(f"Creating model:{config.MODEL.TYPE}/{config.MODEL.NAME}")
-    model = build_model(config)
+    # model = build_model(config)
+    model = build_vit_model(args)
     model.cuda()
     logger.info(str(model))
 
@@ -304,7 +306,7 @@ def throughput(data_loader, model, logger):
 
 
 if __name__ == '__main__':
-    _, config = parse_option()
+    args, config = parse_option()
 
     if config.AMP_OPT_LEVEL != "O0":
         assert amp is not None, "amp not installed!"
@@ -354,4 +356,4 @@ if __name__ == '__main__':
     # print config
     logger.info(config.dump())
 
-    main(config)
+    main(config, args)

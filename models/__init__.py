@@ -1,1 +1,1 @@
-from .build import build_model
+from .build import build_model, build_vit_model

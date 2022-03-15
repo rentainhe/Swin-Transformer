@@ -56,3 +56,23 @@ def build_model(config):
         raise NotImplementedError(f"Unkown model: {model_type}")
 
     return model
+
+
+def build_vit_model(args):
+    if args.model == "vit_tiny_patch16_224":
+        return vit_tiny_patch16_224()
+    elif args.model == "vit_small_patch16_224":
+        return vit_small_patch16_224()
+    elif args.model == "vit_small_patch32_224":
+        return vit_small_patch32_224()
+    elif args.model == "vit_base_patch16_224":
+        return vit_base_patch16_224()
+    elif args.model == "vit_base_patch32_224":
+        return vit_base_patch32_224()
+    elif args.model == "vit_large_patch16_224":
+        return vit_large_patch16_224()
+    elif args.model == "vit_large_patch32_224":
+        return vit_large_patch32_224()
+
+    else:
+        raise NotImplementedError(f"Unkown model: {args.model}")

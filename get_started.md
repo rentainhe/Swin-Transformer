@@ -50,10 +50,10 @@ conda activate swin
 conda install pytorch==1.7.1 torchvision==0.8.2 cudatoolkit=10.1 -c pytorch
 ```
 
-- Install `timm==0.3.2`:
+- Install `timm==0.5.4`:
 
 ```bash
-pip install timm==0.3.2
+pip install timm==0.5.4
 ```
 
 - Install `Apex`:
