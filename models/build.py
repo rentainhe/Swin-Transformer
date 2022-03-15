@@ -7,6 +7,15 @@
 
 from .swin_transformer import SwinTransformer
 from .swin_mlp import SwinMLP
+from .vision_transformer import (
+    vit_tiny_patch16_224,
+    vit_small_patch16_224,
+    vit_small_patch32_224,
+    vit_base_patch16_224,
+    vit_base_patch32_224,
+    vit_large_patch16_224,
+    vit_large_patch32_224
+)
 
 
 def build_model(config):
